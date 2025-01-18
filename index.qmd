@@ -75,10 +75,13 @@ body {
 <body>
 ::: wrapper
 ::: {.box .a}
-```{r hotspots_dengue_leon}
+```{r hotspots_dengue_guadalajara}
 # Step 1. extract the locality ####
-loc <- rgeomex::extract_locality(cve_edo = "11", 
-                                 locality = "León de Aldama")
+loc <- rgeomex::extract_locality(cve_edo = "14", 
+                                 locality = c("Guadalajara",
+                                              "Tlaquepaque",
+                                              "Zapopan", 
+                                              "Tonalá"))
 
 # Step 2. Extract the hotspots ####
 hotspots <- hotspotsdata::den_hotspots[loc, ]
@@ -95,7 +98,7 @@ mapview::mapview(hotspots,
 :::
 
 ::: {.box .b}
-```{r forest_plot_leon, dpi = 300, fig.height= 5,fig.width = 7,fig.align = "center", out.height='100%', out.width = '100%',fig.show = "hold"}
+```{r forest_plot_guadalajara, dpi = 300, fig.height= 5,fig.width = 7,fig.align = "center", out.height='100%', out.width = '100%',fig.show = "hold"}
  
 # Logistic Regression
 hotspots <- hotspots |>
@@ -132,7 +135,7 @@ plotly::ggplotly(plot(result) +
 :::
 
 ::: {.box .c}
-```{r power_law_plot_leon,dpi = 300, warning=FALSE, fig.align = "center", out.width = '100%',out.height='100%',fig.show = "hold"}
+```{r power_law_plot_guadalajara,dpi = 300, warning=FALSE, fig.align = "center", out.width = '100%',out.height='100%',fig.show = "hold"}
 # Step 7. make the function por calculate the cumulative ####
 funcumsum <- function(x){
     x$cumulative_n <- cumsum(x$n_cases)
@@ -180,7 +183,7 @@ plotly::ggplotly(denhotspots::power_law_plot(x = data_pareto) +
 :::
 
 ::: {.box .d}
-```{r gauge_blocks_leon,fig.align = "center", out.height='90%', out.width = '90%'}
+```{r gauge_blocks_guadalajara,fig.align = "center", out.height='90%', out.width = '90%'}
 y_hot <- hotspots |> dplyr::filter(hotspots_gi == 1)
 centroid <- rgeomex::blocks_ine20_mx_centroid |>
   sf::st_as_sf(coords = c("x", "y"), crs = 4326)
@@ -200,7 +203,7 @@ flexdashboard::gauge(round((nrow(b_hot)/nrow(b_loc))*100, digits = 1),
 :::
 
 ::: {.box .e}
-```{r gauge_AGEB_leon, fig.align = "center", out.height='90%', out.width = '90%'}
+```{r gauge_AGEB_guadalajara, fig.align = "center", out.height='90%', out.width = '90%'}
 
 y <- hotspots  |>
     sf::st_drop_geometry() |>
@@ -223,7 +226,7 @@ flexdashboard::gauge(round((nrow(y_hot)/nrow(y))*100, digits = 1),
 :::
 
 ::: {.box .f}
-```{r gauge_casos_leon, out.height='90%', out.width = '90%', fig.align = "center"}
+```{r gauge_casos_guadalajara, out.height='90%', out.width = '90%', fig.align = "center"}
 
 y <- hotspots  |>
     sf::st_drop_geometry() |>
@@ -257,11 +260,40 @@ flexdashboard::gauge(round((sum(y_hot$n_cases)/sum(y$n_cases))*100, digits = 1),
  
 ::: panel-tabset
 
-:::
+### [**Guadalajara**]{style="color:#990000"}
 
+```{r vector_hotspots_guadalajara, dpi = 300, warning=FALSE, message=FALSE}
+deneggs::map_eggs_hotspots(betas = denmex::eggs_betas_14_jalisco,
+                           locality = c("Guadalajara",
+                                        "Tlaquepaque",
+                                        "Zapopan", 
+                                        "Tonalá"),
+                           cve_edo = "14",
+                           palette = rcartocolor::carto_pal,
+                           name = "SunsetDark",
+                           static_map = FALSE)
+```
+
+:::
 
 # [**Escenarios Epidemiológicos**]{style="font-size:2pt"}
  
 ::: panel-tabset
+
+### [**Guadalajara**]{style="color:#990000"}
+
+```{r risk_ageb_Guadalajara}
+# Step 1. calculate the risk ####
+denhotspots::risk_ageb(betas = denmex::eggs_betas_14_jalisco,
+                       hotspots = denmex::den_hotspots,
+                       intensity_perc = 25,
+                       locality = c("Guadalajara",
+                                        "Tlaquepaque",
+                                        "Zapopan", 
+                                        "Tonalá"),
+                       cve_edo = "14") |>
+  denhotspots::map_risk(staticmap = FALSE)
+
+```
 
 :::
