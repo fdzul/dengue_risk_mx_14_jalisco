@@ -12,7 +12,7 @@ mapview::mapviewOptions(default = TRUE,
                         basemaps.color.shuffle = FALSE)
 ```
 
-# [**Hotspots de Dengue**]{style="font-size:2pt"}
+# [**Hotspots de la Transmisión de Dengue**]{style="font-size:2pt"}
  
 ::: panel-tabset
 
@@ -84,7 +84,8 @@ loc <- rgeomex::extract_locality(cve_edo = "14",
                                               "Tonalá"))
 
 # Step 2. Extract the hotspots ####
-hotspots <- hotspotsdata::den_hotspots[loc, ]
+hotspots <- hotspotsdata::hotspots_hex[loc, ]
+
 mapview::mapview(hotspots,
                  zcol = "intensity_gi",
                  layer.name = "Intensidad",
@@ -266,7 +267,7 @@ loc <- rgeomex::extract_locality(cve_edo = "14",
                                  locality = "Puerto Vallarta")
 
 # Step 2. Extract the hotspots ####
-hotspots <- hotspotsdata::den_hotspots[loc, ]
+hotspots <- hotspotsdata::hotspots_hex[loc, ]
 mapview::mapview(hotspots,
                  zcol = "intensity_gi",
                  layer.name = "Intensidad",
@@ -449,7 +450,7 @@ loc <- rgeomex::extract_locality(cve_edo = "14",
                                  locality = "Ciudad Guzmán")
 
 # Step 2. Extract the hotspots ####
-hotspots <- hotspotsdata::den_hotspots[loc, ]
+hotspots <- hotspotsdata::hotspots_hex[loc, ]
 mapview::mapview(hotspots,
                  zcol = "intensity_gi",
                  layer.name = "Intensidad",
@@ -632,7 +633,7 @@ loc <- rgeomex::extract_locality(cve_edo = "14",
                                  locality = "Autlán de Navarro")
 
 # Step 2. Extract the hotspots ####
-hotspots <- hotspotsdata::den_hotspots[loc, ]
+hotspots <- hotspotsdata::hotspots_hex[loc, ]
 mapview::mapview(hotspots,
                  zcol = "intensity_gi",
                  layer.name = "Intensidad",
@@ -815,7 +816,7 @@ loc <- rgeomex::extract_locality(cve_edo = "14",
                                  locality = "Cihuatlán")
 
 # Step 2. Extract the hotspots ####
-hotspots <- hotspotsdata::den_hotspots[loc, ]
+hotspots <- hotspotsdata::den_hotspots[loc,]
 mapview::mapview(hotspots,
                  zcol = "intensity_gi",
                  layer.name = "Intensidad",
